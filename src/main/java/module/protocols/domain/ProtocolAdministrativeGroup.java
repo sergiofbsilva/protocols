@@ -4,8 +4,8 @@ import java.util.Set;
 
 import pt.ist.bennu.core.domain.RoleType;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.groups.Role;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.domain.groups.legacy.Role;
+import pt.ist.bennu.core.i18n.BundleUtil;
 
 public class ProtocolAdministrativeGroup extends ProtocolAdministrativeGroup_Base {
 
@@ -21,8 +21,7 @@ public class ProtocolAdministrativeGroup extends ProtocolAdministrativeGroup_Bas
 
     @Override
     public String getName() {
-        return BundleUtil.getFormattedStringFromResourceBundle("resources/ProtocolsResources", "label.administrative.group",
-                getDelegateGroup().getName());
+        return BundleUtil.getString("resources/ProtocolsResources", "label.administrative.group", getDelegateGroup().getName());
     }
 
     @Override

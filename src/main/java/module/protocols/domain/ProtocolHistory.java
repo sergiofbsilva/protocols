@@ -2,11 +2,12 @@ package module.protocols.domain;
 
 import java.util.Comparator;
 
+import module.protocols.domain.exceptions.ProtocolsDomainException;
+
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.util.IntervalTools;
 import pt.ist.fenixframework.Atomic;
 
@@ -59,7 +60,7 @@ public class ProtocolHistory extends ProtocolHistory_Base {
 
     @Override
     public void setTimestamp(DateTime dateTime) {
-        throw new DomainException("protocolHistory.changeTimestamp.notAllowed");
+        throw new ProtocolsDomainException("protocolHistory.changeTimestamp.notAllowed");
     }
 
     public boolean isActive() {

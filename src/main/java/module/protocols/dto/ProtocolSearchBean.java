@@ -14,8 +14,8 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.Interval;
 import org.joda.time.LocalDate;
 
-import pt.ist.bennu.core.applicationTier.Authenticate;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.bennu.core.util.IntervalTools;
 import pt.ist.fenixWebFramework.rendererExtensions.util.IPresentableEnum;
 import pt.utl.ist.fenix.tools.util.StringNormalizer;
@@ -35,8 +35,7 @@ public class ProtocolSearchBean implements Serializable, Predicate<Protocol> {
 
         @Override
         public String getLocalizedName() {
-            return BundleUtil
-                    .getStringFromResourceBundle("resources/ProtocolsResources", "label.searchNationalityType." + name());
+            return BundleUtil.getString("resources/ProtocolsResources", "label.searchNationalityType." + name());
         }
     }
 
@@ -299,7 +298,7 @@ public class ProtocolSearchBean implements Serializable, Predicate<Protocol> {
         return satisfiedProtocolNumber(protocol) && satisfiesAnyProtocolHistoryDate(protocol)
                 && satisfiedOtherProtocolActionTypes(protocol) && satiefiedProtocolActionTypes(protocol)
                 && satisfiedProtocolPartner(protocol) && satisfiedNationality(protocol) && satisfiedActivity(protocol)
-                && satisfiedActiveInYear(protocol) && protocol.canBeReadByUser(Authenticate.getCurrentUser());
+                && satisfiedActiveInYear(protocol) && protocol.canBeReadByUser(Authenticate.getUser());
     }
 
 }

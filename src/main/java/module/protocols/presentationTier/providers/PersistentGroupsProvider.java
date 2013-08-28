@@ -5,11 +5,11 @@ package module.protocols.presentationTier.providers;
 
 import module.protocols.domain.ProtocolAdministrativeGroup;
 import pt.ist.bennu.core.domain.MyOrg;
-import pt.ist.bennu.core.domain.groups.IntersectionGroup;
-import pt.ist.bennu.core.domain.groups.NegationGroup;
-import pt.ist.bennu.core.domain.groups.PersistentGroup;
-import pt.ist.bennu.core.domain.groups.SingleUserGroup;
-import pt.ist.bennu.core.domain.groups.UnionGroup;
+import pt.ist.bennu.core.domain.groups.legacy.IntersectionGroup;
+import pt.ist.bennu.core.domain.groups.legacy.NegationGroup;
+import pt.ist.bennu.core.domain.groups.legacy.PersistentGroup;
+import pt.ist.bennu.core.domain.groups.legacy.SingleUserGroup;
+import pt.ist.bennu.core.domain.groups.legacy.UnionGroup;
 import pt.ist.fenixWebFramework.renderers.DataProvider;
 import pt.ist.fenixWebFramework.renderers.components.converters.Converter;
 

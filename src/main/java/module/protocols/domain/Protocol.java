@@ -10,6 +10,7 @@ import module.fileManagement.domain.DirNode;
 import module.fileManagement.domain.Document;
 import module.fileManagement.domain.FileNode;
 import module.geography.domain.Country;
+import module.protocols.domain.exceptions.ProtocolsDomainException;
 import module.protocols.domain.util.ProtocolAction;
 import module.protocols.domain.util.ProtocolResponsibleType;
 import module.protocols.dto.ProtocolCreationBean;
@@ -18,11 +19,10 @@ import module.protocols.dto.ProtocolCreationBean.ProtocolResponsibleBean;
 import org.joda.time.LocalDate;
 
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.bennu.core.domain.groups.AnyoneGroup;
-import pt.ist.bennu.core.domain.groups.PersistentGroup;
-import pt.ist.bennu.core.domain.groups.UnionGroup;
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.domain.groups.legacy.AnyoneGroup;
+import pt.ist.bennu.core.domain.groups.legacy.PersistentGroup;
+import pt.ist.bennu.core.domain.groups.legacy.UnionGroup;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.fenixWebFramework.rendererExtensions.util.IPresentableEnum;
 import pt.ist.fenixframework.Atomic;
 import pt.utl.ist.fenix.tools.util.StringNormalizer;
@@ -43,7 +43,7 @@ public class Protocol extends Protocol_Base {
 
         @Override
         public String getLocalizedName() {
-            return BundleUtil.getStringFromResourceBundle("resources/ProtocolsResources", "label.renewTime." + name());
+            return BundleUtil.getString("resources/ProtocolsResources", "label.renewTime." + name());
         }
     }
 
@@ -170,7 +170,7 @@ public class Protocol extends Protocol_Base {
                 continue;
             }
             if (protocol.getProtocolNumber().equals(number)) {
-                throw new DomainException("error.protocol.number.already.exists", number);
+                throw new ProtocolsDomainException("error.protocol.number.already.exists", number);
             }
         }
 
@@ -394,13 +394,13 @@ public class Protocol extends Protocol_Base {
     public String getVisibilityDescription() {
         switch (getVisibilityType()) {
         case PROTOCOL:
-            return BundleUtil.getFormattedStringFromResourceBundle("resources/ProtocolsResources",
+            return BundleUtil.getString("resources/ProtocolsResources",
                     "label.protocols.visibility.protocol", generateVisibilityString());
         case RESTRICTED:
-            return BundleUtil.getFormattedStringFromResourceBundle("resources/ProtocolsResources",
+            return BundleUtil.getString("resources/ProtocolsResources",
                     "label.protocols.visibility.restricted", generateVisibilityString());
         case TOTAL:
-            return BundleUtil.getStringFromResourceBundle("resources/ProtocolsResources", "label.protocols.visibility.total");
+            return BundleUtil.getString("resources/ProtocolsResources", "label.protocols.visibility.total");
         default:
             return "";
         }
@@ -438,7 +438,7 @@ public class Protocol extends Protocol_Base {
     }
 
     @Deprecated
-    public java.util.Set<pt.ist.bennu.core.domain.groups.PersistentGroup> getReaderGroups() {
+    public java.util.Set<pt.ist.bennu.core.domain.groups.legacy.PersistentGroup> getReaderGroups() {
         return getReaderGroupsSet();
     }
 

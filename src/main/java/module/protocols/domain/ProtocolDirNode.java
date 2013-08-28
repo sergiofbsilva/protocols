@@ -1,8 +1,8 @@
 package module.protocols.domain;
 
 import jvstm.cps.ConsistencyPredicate;
-import pt.ist.bennu.core.domain.groups.PersistentGroup;
-import pt.ist.bennu.core.domain.groups.UnionGroup;
+import pt.ist.bennu.core.domain.groups.legacy.PersistentGroup;
+import pt.ist.bennu.core.domain.groups.legacy.UnionGroup;
 
 public class ProtocolDirNode extends ProtocolDirNode_Base {
 

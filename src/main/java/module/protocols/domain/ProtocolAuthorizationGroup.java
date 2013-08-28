@@ -3,8 +3,8 @@ package module.protocols.domain;
 import java.util.List;
 
 import module.fileManagement.domain.ContextPath;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.bennu.core.domain.groups.PersistentGroup;
+import module.protocols.domain.exceptions.ProtocolsDomainException;
+import pt.ist.bennu.core.domain.groups.legacy.PersistentGroup;
 import pt.ist.fenixframework.Atomic;
 
 public class ProtocolAuthorizationGroup extends ProtocolAuthorizationGroup_Base {
@@ -40,7 +40,7 @@ public class ProtocolAuthorizationGroup extends ProtocolAuthorizationGroup_Base 
     public void delete() {
 
         if (!getWriterProtocols().isEmpty()) {
-            throw new DomainException("error.group.has.protocols");
+            throw new ProtocolsDomainException("error.group.has.protocols");
         }
 
         ProtocolManager.getInstance().getCreatorsGroup().removePersistentGroups(getAuthorizedWriterGroup());
@@ -77,7 +77,7 @@ public class ProtocolAuthorizationGroup extends ProtocolAuthorizationGroup_Base 
     }
 
     @Deprecated
-    public java.util.Set<pt.ist.bennu.core.domain.groups.PersistentGroup> getAuthorizedReaderGroups() {
+    public java.util.Set<pt.ist.bennu.core.domain.groups.legacy.PersistentGroup> getAuthorizedReaderGroups() {
         return getAuthorizedReaderGroupsSet();
     }
 

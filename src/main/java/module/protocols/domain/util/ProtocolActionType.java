@@ -1,6 +1,6 @@
 package module.protocols.domain.util;
 
-import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.i18n.BundleUtil;
 import pt.ist.fenixWebFramework.rendererExtensions.util.IPresentableEnum;
 
 public enum ProtocolActionType implements IPresentableEnum {
@@ -10,6 +10,6 @@ public enum ProtocolActionType implements IPresentableEnum {
 
     @Override
     public String getLocalizedName() {
-        return BundleUtil.getStringFromResourceBundle("resources/ProtocolsResources", "label.protocolActionType." + name());
+        return BundleUtil.getString("resources/ProtocolsResources", "label.protocolActionType." + name());
     }
 }

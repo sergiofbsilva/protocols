@@ -4,7 +4,7 @@ import jvstm.cps.ConsistencyPredicate;
 import module.protocols.domain.util.ProtocolResponsibleType;
 import module.protocols.dto.ProtocolSystemConfigurationBean;
 import pt.ist.bennu.core.domain.MyOrg;
-import pt.ist.bennu.core.domain.groups.UnionGroup;
+import pt.ist.bennu.core.domain.groups.legacy.UnionGroup;
 import pt.ist.fenixframework.Atomic;
 
 /**

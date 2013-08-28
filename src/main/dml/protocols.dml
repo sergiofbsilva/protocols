@@ -41,7 +41,7 @@ class ProtocolResponsible {
 class ProtocolAuthorizationGroup {
 }
 
-class ProtocolAdministrativeGroup extends .pt.ist.bennu.core.domain.groups.PersistentGroup {
+class ProtocolAdministrativeGroup extends .pt.ist.bennu.core.domain.groups.legacy.PersistentGroup {
 }
 
 class ProtocolDirNode extends .module.fileManagement.domain.DirNode {
@@ -84,12 +84,12 @@ relation ProtocolManagerAdministrativeGroup {
 
 relation ProtocolManagerCreatorsGroup {
 	ProtocolManager playsRole protocolManager;
-	.pt.ist.bennu.core.domain.groups.UnionGroup playsRole creatorsGroup;
+	.pt.ist.bennu.core.domain.groups.legacy.UnionGroup playsRole creatorsGroup;
 }
 
 relation ProtocolAdministrativeGroupPersistentGroup {
 	ProtocolAdministrativeGroup playsRole administrativeGroup;
-	.pt.ist.bennu.core.domain.groups.PersistentGroup playsRole delegateGroup;
+	.pt.ist.bennu.core.domain.groups.legacy.PersistentGroup playsRole delegateGroup;
 }
 
 // Protocols
@@ -141,7 +141,7 @@ relation ProtocolHistoryProtocol {
 
 relation ProtocolAllowedToReadGroups {
 	Protocol playsRole allowedToReadProtocol;
-	.pt.ist.bennu.core.domain.groups.UnionGroup playsRole allowedToRead;
+	.pt.ist.bennu.core.domain.groups.legacy.UnionGroup playsRole allowedToRead;
 }
 
 relation ProtocolAuthorizationGroupProtocol {
@@ -155,7 +155,7 @@ relation ProtocolReaders {
 	Protocol playsRole readerProtocols {
 		multiplicity *;
 	}
-	.pt.ist.bennu.core.domain.groups.PersistentGroup playsRole readerGroups {
+	.pt.ist.bennu.core.domain.groups.legacy.PersistentGroup playsRole readerGroups {
 		multiplicity *;
 	}
 }
@@ -171,14 +171,14 @@ relation ProtocolAuthorizationGroupProtocolManager {
 
 relation ProtocolAuthorizationGroupWriterGroups {
 	ProtocolAuthorizationGroup playsRole protocolAuthorizationGroupAllowedToWrite;
-	.pt.ist.bennu.core.domain.groups.PersistentGroup playsRole authorizedWriterGroup;
+	.pt.ist.bennu.core.domain.groups.legacy.PersistentGroup playsRole authorizedWriterGroup;
 }
 
 relation ProtocolAuthorizationGroupReaderGroups {
 	ProtocolAuthorizationGroup playsRole protocolAuthorizationGroupAllowedToRead {
 		multiplicity *;
 	}
-	.pt.ist.bennu.core.domain.groups.PersistentGroup playsRole authorizedReaderGroups {
+	.pt.ist.bennu.core.domain.groups.legacy.PersistentGroup playsRole authorizedReaderGroups {
 		multiplicity *;
 	}
 }

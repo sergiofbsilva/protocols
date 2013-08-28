@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import module.protocols.domain.ProtocolAuthorizationGroup;
-import pt.ist.bennu.core.domain.groups.PersistentGroup;
+import pt.ist.bennu.core.domain.groups.legacy.PersistentGroup;
 
 /**
  * @author Joao Carvalho (joao.pedro.carvalho@ist.utl.pt)

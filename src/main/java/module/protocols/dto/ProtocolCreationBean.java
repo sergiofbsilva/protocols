@@ -26,8 +26,8 @@ import module.protocols.domain.util.ProtocolResponsibleType;
 
 import org.joda.time.LocalDate;
 
-import pt.ist.bennu.core.applicationTier.Authenticate;
-import pt.ist.bennu.core.domain.groups.PersistentGroup;
+import pt.ist.bennu.core.domain.groups.legacy.PersistentGroup;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.utl.ist.fenix.tools.util.Strings;
 
 import com.google.common.base.Predicate;
@@ -392,7 +392,7 @@ public class ProtocolCreationBean implements Serializable {
     }
 
     public Person getCreator() {
-        return Authenticate.getCurrentUser().getPerson();
+        return Authenticate.getUser().getPerson();
     }
 
     public List<ProtocolResponsible> getRemovedResponsibles() {

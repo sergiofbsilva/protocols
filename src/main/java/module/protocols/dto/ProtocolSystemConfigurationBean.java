@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 import module.organization.domain.OrganizationalModel;
 import module.protocols.domain.ProtocolManager;
-import pt.ist.bennu.core.domain.groups.PersistentGroup;
+import pt.ist.bennu.core.domain.groups.legacy.PersistentGroup;
 
 /**
  * @author Joao Carvalho (joao.pedro.carvalho@ist.utl.pt)

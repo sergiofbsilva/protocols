@@ -17,6 +17,7 @@ import module.protocols.domain.Protocol;
 import module.protocols.domain.ProtocolAuthorizationGroup;
 import module.protocols.domain.ProtocolManager;
 import module.protocols.domain.ProtocolResponsible;
+import module.protocols.domain.exceptions.ProtocolsDomainException;
 import module.protocols.domain.util.ProtocolResponsibleType;
 import module.protocols.dto.AuthorizationGroupBean;
 import module.protocols.dto.ProtocolCreationBean;
@@ -34,19 +35,14 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 import org.joda.time.LocalDate;
 
-import pt.ist.bennu.core.applicationTier.Authenticate;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.domain.contents.ActionNode;
-import pt.ist.bennu.core.domain.contents.Node;
 import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.bennu.core.domain.groups.PersistentGroup;
-import pt.ist.bennu.core.domain.groups.UserGroup;
+import pt.ist.bennu.core.domain.groups.legacy.PersistentGroup;
 import pt.ist.bennu.core.presentationTier.actions.ContextBaseAction;
+import pt.ist.bennu.core.security.Authenticate;
 import pt.ist.bennu.core.util.InputStreamUtil;
 import pt.ist.bennu.core.util.VariantBean;
 import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
-import pt.ist.fenixWebFramework.servlets.functionalities.CreateNodeAction;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
 import pt.ist.fenixframework.FenixFramework;
 
@@ -61,42 +57,42 @@ import com.google.common.collect.Collections2;
 @Mapping(path = "/protocols")
 public class ProtocolsDispatchAction extends ContextBaseAction {
 
-    @CreateNodeAction(bundle = "PROTOCOLS_RESOURCES", key = "add.node.manage.protocols", groupKey = "label.module.protocols")
-    public final ActionForward createProtocolsNode(final ActionMapping mapping, final ActionForm form,
-            final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-
-        final VirtualHost virtualHost = getDomainObject(request, "virtualHostToManageId");
-
-        final Node parentOfNodes = getDomainObject(request, "parentOfNodesToManageId");
-
-        final ActionNode topActionNode =
-                ActionNode.createActionNode(virtualHost, parentOfNodes, "/protocols", "firstPage",
-                        "resources.ProtocolsResources", "label.module.protocols", UserGroup.getInstance());
-
-        ActionNode.createActionNode(virtualHost, topActionNode, "/protocols", "showProtocols", "resources.ProtocolsResources",
-                "label.protocols.show", UserGroup.getInstance());
-
-        ActionNode.createActionNode(virtualHost, topActionNode, "/protocols", "searchProtocols", "resources.ProtocolsResources",
-                "label.protocols.search", UserGroup.getInstance());
-
-        ActionNode.createActionNode(virtualHost, topActionNode, "/protocols", "prepareCreateProtocolData",
-                "resources.ProtocolsResources", "label.protocols.create", ProtocolManager.getInstance().getCreatorsGroup());
-
-        ActionNode.createActionNode(virtualHost, topActionNode, "/protocols", "showAlerts", "resources.ProtocolsResources",
-                "label.protocols.alerts", ProtocolManager.getInstance().getCreatorsGroup());
-
-        // System configuration. Should only be accessed by the administrative
-        // group
-        ActionNode.createActionNode(virtualHost, topActionNode, "/protocols", "protocolSystemConfiguration",
-                "resources.ProtocolsResources", "label.protocolSystem.configure", ProtocolManager.getInstance()
-                        .getAdministrativeGroup());
-
-        ActionNode.createActionNode(virtualHost, topActionNode, "/protocols", "authorizationGroupsConfiguration",
-                "resources.ProtocolsResources", "label.protocolSystem.configureAuthorizationGroups", ProtocolManager
-                        .getInstance().getAdministrativeGroup());
-
-        return forwardToMuneConfiguration(request, virtualHost, topActionNode);
-    }
+//    @CreateNodeAction(bundle = "PROTOCOLS_RESOURCES", key = "add.node.manage.protocols", groupKey = "label.module.protocols")
+//    public final ActionForward createProtocolsNode(final ActionMapping mapping, final ActionForm form,
+//            final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+//
+//        final VirtualHost virtualHost = getDomainObject(request, "virtualHostToManageId");
+//
+//        final Node parentOfNodes = getDomainObject(request, "parentOfNodesToManageId");
+//
+//        final ActionNode topActionNode =
+//                ActionNode.createActionNode(virtualHost, parentOfNodes, "/protocols", "firstPage",
+//                        "resources.ProtocolsResources", "label.module.protocols", UserGroup.getInstance());
+//
+//        ActionNode.createActionNode(virtualHost, topActionNode, "/protocols", "showProtocols", "resources.ProtocolsResources",
+//                "label.protocols.show", UserGroup.getInstance());
+//
+//        ActionNode.createActionNode(virtualHost, topActionNode, "/protocols", "searchProtocols", "resources.ProtocolsResources",
+//                "label.protocols.search", UserGroup.getInstance());
+//
+//        ActionNode.createActionNode(virtualHost, topActionNode, "/protocols", "prepareCreateProtocolData",
+//                "resources.ProtocolsResources", "label.protocols.create", ProtocolManager.getInstance().getCreatorsGroup());
+//
+//        ActionNode.createActionNode(virtualHost, topActionNode, "/protocols", "showAlerts", "resources.ProtocolsResources",
+//                "label.protocols.alerts", ProtocolManager.getInstance().getCreatorsGroup());
+//
+//        // System configuration. Should only be accessed by the administrative
+//        // group
+//        ActionNode.createActionNode(virtualHost, topActionNode, "/protocols", "protocolSystemConfiguration",
+//                "resources.ProtocolsResources", "label.protocolSystem.configure", ProtocolManager.getInstance()
+//                        .getAdministrativeGroup());
+//
+//        ActionNode.createActionNode(virtualHost, topActionNode, "/protocols", "authorizationGroupsConfiguration",
+//                "resources.ProtocolsResources", "label.protocolSystem.configureAuthorizationGroups", ProtocolManager
+//                        .getInstance().getAdministrativeGroup());
+//
+//        return forwardToMuneConfiguration(request, virtualHost, topActionNode);
+//    }
 
     public ActionForward firstPage(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
             final HttpServletResponse response) {
@@ -106,7 +102,7 @@ public class ProtocolsDispatchAction extends ContextBaseAction {
     public ActionForward showProtocols(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
             final HttpServletResponse response) {
 
-        final User currentUser = Authenticate.getCurrentUser();
+        final User currentUser = Authenticate.getUser();
 
         Collection<Protocol> protocols =
                 Collections2.filter(ProtocolManager.getInstance().getProtocols(), new Predicate<Protocol>() {
@@ -125,7 +121,7 @@ public class ProtocolsDispatchAction extends ContextBaseAction {
     public ActionForward showAlerts(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
             final HttpServletResponse response) {
 
-        final User user = Authenticate.getCurrentUser();
+        final User user = Authenticate.getUser();
 
         setOrganizationalModels(request);
 
@@ -263,7 +259,7 @@ public class ProtocolsDispatchAction extends ContextBaseAction {
 
     private ActionForward viewProtocolDetailsFromOID(final HttpServletRequest request, String OID) {
 
-        User currentUser = Authenticate.getCurrentUser();
+        User currentUser = Authenticate.getUser();
 
         Protocol protocol = getDomainObject(OID);
 
@@ -411,8 +407,8 @@ public class ProtocolsDispatchAction extends ContextBaseAction {
 
             Protocol protocol = getDomainObject(request, "OID");
 
-            if (!protocol.canBeWrittenByUser(Authenticate.getCurrentUser())) {
-                throw new DomainException("error.unauthorized");
+            if (!protocol.canBeWrittenByUser(Authenticate.getUser())) {
+                throw new ProtocolsDomainException("error.unauthorized");
             }
 
             bean = new ProtocolFileUploadBean(protocol);
@@ -436,8 +432,8 @@ public class ProtocolsDispatchAction extends ContextBaseAction {
 
         Protocol protocol = getDomainObject(request, "protocol");
 
-        if (!protocol.canBeWrittenByUser(Authenticate.getCurrentUser())) {
-            throw new DomainException("error.unauthorized");
+        if (!protocol.canBeWrittenByUser(Authenticate.getUser())) {
+            throw new ProtocolsDomainException("error.unauthorized");
         }
 
         FileNode file = getDomainObject(request, "file");
@@ -455,8 +451,8 @@ public class ProtocolsDispatchAction extends ContextBaseAction {
 
         Protocol protocol = getDomainObject(request, "OID");
 
-        if (!protocol.canBeWrittenByUser(Authenticate.getCurrentUser())) {
-            throw new DomainException("error.unauthorized");
+        if (!protocol.canBeWrittenByUser(Authenticate.getUser())) {
+            throw new ProtocolsDomainException("error.unauthorized");
         }
 
         request.setAttribute("protocolBean", new ProtocolCreationBean(protocol));
@@ -574,8 +570,8 @@ public class ProtocolsDispatchAction extends ContextBaseAction {
     public ActionForward prepareCreateProtocolData(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        if (!ProtocolManager.getInstance().getCreatorsGroup().isMember(Authenticate.getCurrentUser())) {
-            throw new DomainException("error.unauthorized");
+        if (!ProtocolManager.getInstance().getCreatorsGroup().isMember(Authenticate.getUser())) {
+            throw new ProtocolsDomainException("error.unauthorized");
         }
 
         request.setAttribute("protocolBean", new ProtocolCreationBean());
@@ -781,8 +777,8 @@ public class ProtocolsDispatchAction extends ContextBaseAction {
     }
 
     private void checkAdministrative() {
-        if (!ProtocolManager.getInstance().getAdministrativeGroup().isMember(Authenticate.getCurrentUser())) {
-            throw new DomainException("error.unauthorized");
+        if (!ProtocolManager.getInstance().getAdministrativeGroup().isMember(Authenticate.getUser())) {
+            throw new ProtocolsDomainException("error.unauthorized");
         }
     }
 
